@@ -17,7 +17,7 @@ public class Membership {
 
     // Setters & Getters
     public int getId() {return id;}
-    public int getMemberid() {return memberId;}
+    public int getMemberId() {return memberId;}
     public String getType() {return type;}
     public String getStartDate() {return startDate;}
     public String getEndDate() {return endDate;}
