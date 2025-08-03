@@ -1,3 +1,5 @@
-public class Member {
+package Classes;
+
+public class Member extends User {
     
 }
