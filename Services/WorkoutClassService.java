@@ -1,34 +1,30 @@
 package Services;
 
+import DAO.WorkoutClassDAO;
 import Classes.WorkoutClass;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class WorkoutClassService {
-    private List<WorkoutClass> classList = new ArrayList<>();
-    private int nextId = 1;
+    private final WorkoutClassDAO workoutClassDAO = new WorkoutClassDAO();
 
     public void addWorkoutClass(WorkoutClass wc) {
-        classList.add(wc);
-        System.out.println("Workout class added: " + wc.getName());
+        workoutClassDAO.addWorkoutClass(wc);
     }
 
-    public void updateWorkoutClass(int id, String newName, String newSchedule, String newTrainerName) {
-        for (WorkoutClass wc : classList) {
-            if (wc.getId() == id) {
-                System.out.println("Workout class updated: ID " + id);
-                return;
-            }
-        }
-        System.out.println("Workout class update failed: ID " + id + " not found.");
+    public List<WorkoutClass> getAllWorkoutClasses() {
+        return workoutClassDAO.getAllWorkoutClasses();
+    }
+
+    public void updateWorkoutClass(int id, String newType, String newDesc, String trainerName) {
+        workoutClassDAO.updateWorkoutClass(id, newType, newDesc, trainerName);
     }
 
     public void deleteWorkoutClass(int id) {
-        boolean match = classList.removeIf(wc -> wc.getId() == id);
-        if (match) System.out.println("Workout class deleted: ID " + id);
+        workoutClassDAO.deleteWorkoutClass(id);
     }
 
-    public List<WorkoutClass> getAllClasses() {
-        return classList;
+    public List<WorkoutClass> getClassesByTrainer(String trainerName) {
+        return workoutClassDAO.getClassesByTrainer(trainerName);
     }
 }

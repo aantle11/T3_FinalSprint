@@ -13,14 +13,31 @@ public class WorkoutClass {
         this.trainerName = trainerName;
     }
 
-    // Getters & Setters
-    public int getId() {return id;}
-    public String getName() {return name;}
-    public String getSchedule() {return schedule;}
-    public String getTrainerName() {return trainerName;}
+    public int getId() {
+        return id;
+    }
 
-    @Override
-    public String toString() {
-        return name + " with " + trainerName + " at " + schedule;
+    public String getName() {
+        return name;
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+
+    public String getTrainerName() {
+        return trainerName;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
+    }
+
+    public void setTrainerName(String trainerName) {
+        this.trainerName = trainerName;
     }
 }

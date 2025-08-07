@@ -1,95 +1,119 @@
-import Classes.*;
-import Services.*;
+import Classes.User;
+import Services.UserService;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        GymMerchService merchService = new GymMerchService();
-        WorkoutClassService classService = new WorkoutClassService();
-        MembershipService membershipService = new MembershipService();
+        UserService userService = new UserService();
 
-        boolean running = true;
-        while (running) {
-            System.out.println("\n=== Gym Management System ===");
-            System.out.println("1. Add Gym Merchandise");
-            System.out.println("2. View Merchandise & Stock Report");
-            System.out.println("3. View Total Merchandise Value");
-            System.out.println("4. Add Workout Class");
-            System.out.println("5. View All Classes");
-            System.out.println("6. Add Membership");
-            System.out.println("7. View All Memberships");
-            System.out.println("8. View Membership Revenue");
-            System.out.println("9. Exit");
+        System.out.println("=== Gym Management System ===");
+
+        User currentUser = null;
+        while (currentUser == null) {
+            System.out.println("\n1. Register");
+            System.out.println("2. Login");
+            System.out.println("3. Exit");
             System.out.print("Choose an option: ");
-
             String choice = scanner.nextLine();
 
             switch (choice) {
-                case "1" -> {
-                    System.out.print("Enter merch name: ");
+                case "1":
+                    System.out.print("Enter name: ");
                     String name = scanner.nextLine();
-                    System.out.print("Enter price: ");
-                    double price = Double.parseDouble(scanner.nextLine());
-                    System.out.print("Enter stock: ");
-                    int stock = Integer.parseInt(scanner.nextLine());
-                    GymMerch merch = new GymMerch(0, name, price, stock);
-                    merchService.addMerch(merch);
-                }
-                case "2" -> {
-                    merchService.printStockReport();
-                }
-                case "3" -> {
-                    merchService.getTotalMerchValue();
-                }
-                case "4" -> {
-                    System.out.print("Enter class name: ");
-                    String className = scanner.nextLine();
-                    System.out.print("Enter schedule: ");
-                    String schedule = scanner.nextLine();
-                    System.out.print("Enter trainer name: ");
-                    String trainerName = scanner.nextLine();
-                    WorkoutClass wc = new WorkoutClass(0, className, schedule, trainerName);
-                    classService.addWorkoutClass(wc);
-                }
-                case "5" -> {
-                    for (WorkoutClass wc : classService.getAllClasses()) {
-                        System.out.println(wc);
+                    System.out.print("Enter email: ");
+                    String email = scanner.nextLine();
+                    System.out.print("Enter password: ");
+                    String password = scanner.nextLine();
+                    System.out.print("Enter role (Admin / Trainer / Member): ");
+                    String role = scanner.nextLine();
+
+                    if (userService.register(name, email, password, role)) {
+                        System.out.println("Registration successful! You can now login.");
+                    } else {
+                        System.out.println("Registration failed.");
                     }
-                }
-                case "6" -> {
-                    System.out.print("Enter membership ID: ");
-                    int id = Integer.parseInt(scanner.nextLine());
-                    System.out.print("Enter member ID: ");
-                    int memberId = Integer.parseInt(scanner.nextLine());
-                    System.out.print("Enter type: ");
-                    String type = scanner.nextLine();
-                    System.out.print("Enter start date: ");
-                    String startDate = scanner.nextLine();
-                    System.out.print("Enter end date: ");
-                    String endDate = scanner.nextLine();
-                    Membership m = new Membership(id, memberId, type, startDate, endDate);
-                    membershipService.createMembership(m);
-                }
-                case "7" -> {
-                    for (Membership m : membershipService.getAllMemberships()) {
-                        System.out.println(m);
-                    }
-                }
-                case "8" -> {
-                    double revenue = membershipService.calculateTotalRevenue();
-                    System.out.println("Total revenue: $" + revenue);
-                }
-                case "9" -> {
-                    running = false;
-                    System.out.println("Exiting the application.");
-                }
-                default -> {
-                    System.out.println("Invalid option. Try again.");
-                }
+                    break;
+
+                case "2":
+                    System.out.print("Enter email: ");
+                    email = scanner.nextLine();
+                    System.out.print("Enter password: ");
+                    password = scanner.nextLine();
+
+                    currentUser = userService.login(email, password);
+                    break;
+
+                case "3":
+                    System.out.println("Goodbye!");
+                    System.exit(0);
+
+                default:
+                    System.out.println("Invalid choice.");
             }
         }
 
-        scanner.close();
+        // Role-based menu
+        switch (currentUser.getRole().toLowerCase()) {
+            case "admin":
+                showAdminMenu(scanner);
+                break;
+            case "trainer":
+                showTrainerMenu(scanner);
+                break;
+            case "member":
+                showMemberMenu(scanner);
+                break;
+            default:
+                System.out.println("Unknown role. Access denied.");
+        }
+    }
+
+    private static void showAdminMenu(Scanner scanner) {
+        while (true) {
+            System.out.println("\n=== Admin Menu ===");
+            System.out.println("1. View Users (coming soon)");
+            System.out.println("2. View Revenue (coming soon)");
+            System.out.println("3. Logout");
+            System.out.print("Choose an option: ");
+            String option = scanner.nextLine();
+
+            if (option.equals("3")) {
+                System.out.println("Logging out...");
+                break;
+            }
+        }
+    }
+
+    private static void showTrainerMenu(Scanner scanner) {
+        while (true) {
+            System.out.println("\n=== Trainer Menu ===");
+            System.out.println("1. View Classes (coming soon)");
+            System.out.println("2. Logout");
+            System.out.print("Choose an option: ");
+            String option = scanner.nextLine();
+
+            if (option.equals("2")) {
+                System.out.println("Logging out...");
+                break;
+            }
+        }
+    }
+
+    private static void showMemberMenu(Scanner scanner) {
+        while (true) {
+            System.out.println("\n=== Member Menu ===");
+            System.out.println("1. View Available Classes (coming soon)");
+            System.out.println("2. Logout");
+            System.out.print("Choose an option: ");
+            String option = scanner.nextLine();
+
+            if (option.equals("2")) {
+                System.out.println("Logging out...");
+                break;
+            }
+        }
+        
     }
 }

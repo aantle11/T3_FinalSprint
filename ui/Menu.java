@@ -12,7 +12,6 @@ public class Menu {
     private final MembershipService membershipService;
     private final GymMerchService gymMerchService;
     private final WorkoutClassService workoutClassService;
-    }
 
     public Menu(UserService us, MembershipService ms, GymMerchService gs, WorkoutClassService wcs) {
         this.userService = us;
@@ -24,97 +23,96 @@ public class Menu {
     public void displayMenu(User currentUser) {
         Scanner scanner = new Scanner(System.in);
         String role = currentUser.getRole();
-        }
 
         boolean running = true;
         while (running) {
-            System.out.println("\nWelcome " + currentUser.getUserName() + " (" + role + ")");
+            System.out.println("\nWelcome " + currentUser.getName() + " (" + role + ")");
             System.out.println("Select an option:");
-        }
 
             switch (role) {
                 case "Admin" -> {
                     System.out.println("1. View all users");
                     System.out.println("2. View all memberships");
-                    System.out.println("3. View total revenue");
-                    System.out.println("4. View merchandise stock");
-                    System.out.println("5. Add merchandise");
-                    System.out.println("6. View total merch value");
+                    System.out.println("3. View all merchandise stock");
                     System.out.println("0. Logout");
                     switch (scanner.nextLine()) {
-                        case "1" -> userService.printAllUsers();
+                        case "1" -> userService.printAllUsers(); // This method must exist in your UserService
                         case "2" -> membershipService.getAllMemberships().forEach(System.out::println);
-                        case "3" -> System.out.println("Total revenue: $" + membershipService.getAllMemberships()
-                                .stream().mapToDouble(Membership::getCost).sum());
-                        case "4" -> gymMerchService.printStockReport();
-                        case "5" -> {
-                            System.out.print("Item name: ");
-                            String name = scanner.nextLine();
-                            System.out.print("Type: ");
-                            String type = scanner.nextLine();
-                            System.out.print("Price: ");
-                            double price = Double.parseDouble(scanner.nextLine());
-                            System.out.print("Quantity: ");
-                            int qty = Integer.parseInt(scanner.nextLine());
-                            GymMerch merch = new GymMerch(name, type, price, qty);
-                            gymMerchService.addMerch(merch);
-                        }
-                        case "6" -> System.out.println("Total value: $" + gymMerchService.getTotalMerchValue());
+                        case "3" -> gymMerchService.printStockReport();
                         case "0" -> running = false;
                         default -> System.out.println("Invalid choice.");
                     }
                 }
-            }
+
                 case "Trainer" -> {
                     System.out.println("1. Add workout class");
                     System.out.println("2. Update workout class");
                     System.out.println("3. Delete workout class");
-                    System.out.println("4. View my classes");
-                    System.out.println("5. View all merchandise");
-                    System.out.println("6. Purchase membership");
+                    System.out.println("4. View all merchandise");
                     System.out.println("0. Logout");
                     switch (scanner.nextLine()) {
                         case "1" -> {
-                            System.out.print("Class type: ");
-                            String type = scanner.nextLine();
-                            System.out.print("Description: ");
-                            String desc = scanner.nextLine();
-                            WorkoutClass wc = new WorkoutClass(0, type, desc, currentUser.getUserId());
+                            System.out.print("Class name: ");
+                            String name = scanner.nextLine();
+                            System.out.print("Schedule: ");
+                            String schedule = scanner.nextLine();
+                            System.out.print("Trainer name: ");
+                            String trainerName = currentUser.getName();
+                            WorkoutClass wc = new WorkoutClass(0, name, schedule, trainerName);
                             workoutClassService.addWorkoutClass(wc);
                         }
                         case "2" -> {
-                            System.out.print("Class ID: ");
+                            System.out.print("Class ID to update: ");
                             int id = Integer.parseInt(scanner.nextLine());
-                            System.out.print("New type: ");
-                            String newType = scanner.nextLine();
-                            System.out.print("New description: ");
-                            String newDesc = scanner.nextLine();
-                            workoutClassService.updateWorkoutClass(id, newType, newDesc);
+                            System.out.print("New name: ");
+                            String newName = scanner.nextLine();
+                            System.out.print("New schedule: ");
+                            String newSchedule = scanner.nextLine();
+                            workoutClassService.updateWorkoutClass(id, newName, newSchedule, currentUser.getName());
                         }
                         case "3" -> {
                             System.out.print("Class ID to delete: ");
                             int id = Integer.parseInt(scanner.nextLine());
                             workoutClassService.deleteWorkoutClass(id);
                         }
-                        case "4" -> workoutClassService.getClassesByTrainer(currentUser).forEach(System.out::println);
-                        case "5" -> gymMerchService.printStockReport();
-                        case "6" -> {
-                            System.out.print("Membership type: ");
-                            String type = scanner.nextLine();
-                            System.out.print("Description: ");
-                            String desc = scanner.nextLine();
-                            System.out.print("Cost: ");
-                            double cost = Double.parseDouble(scanner.nextLine());
-                            Membership m = new Membership(type, desc, cost);
-                            membershipService.createMembership(currentUser, m);
-                        }
+                        case "4" -> gymMerchService.printStockReport();
                         case "0" -> running = false;
                         default -> System.out.println("Invalid choice.");
                     }
                 }
+
                 case "Member" -> {
-                    System.out.println("1. View workout classes");
-                    System.out.println("2. View my membership expenses");
-                    System.out.println("3. Purchase membership");
-                    System.out.println("4. View merchandise");
+                    System.out.println("1. View all workout classes");
+                    System.out.println("2. Purchase membership");
+                    System.out.println("3. View all merchandise");
+                    System.out.println("0. Logout");
+                    switch (scanner.nextLine()) {
+                        case "1" -> workoutClassService.getAllWorkoutClasses().forEach(System.out::println);
+                        case "2" -> {
+                            System.out.print("Membership ID: ");
+                            int id = Integer.parseInt(scanner.nextLine());
+                            System.out.print("Member ID: ");
+                            int memberId = Integer.parseInt(scanner.nextLine());
+                            System.out.print("Type: ");
+                            String type = scanner.nextLine();
+                            System.out.print("Start Date: ");
+                            String start = scanner.nextLine();
+                            System.out.print("End Date: ");
+                            String end = scanner.nextLine();
+                            Membership m = new Membership(id, memberId, type, start, end);
+                            membershipService.createMembership(m);
+                        }
+                        case "3" -> gymMerchService.printStockReport();
+                        case "0" -> running = false;
+                        default -> System.out.println("Invalid choice.");
+                    }
                 }
+
+                default -> {
+                    System.out.println("Unknown role.");
+                    running = false;
+                }
+            }
+        }
+    }
+}
