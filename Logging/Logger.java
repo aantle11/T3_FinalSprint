@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 
 public class Logger {
-    private static final String LOG_FILE = "gym-log.txt";
+    private static final String LOG_FILE = "Logging/log.txt";
 
     public static void log(String message) {
         try (FileWriter fw = new FileWriter(LOG_FILE, true);
