@@ -119,22 +119,6 @@ Tracks user actions, errors, and key system events.
 
 ---
 
-## Project Structure
-T3_FinalSprint/
-├── Classes/
-├── DAO/
-├── Database/
-├── Logging/
-├── Services/
-├── Utils/
-├── ui/
-├── Main.java
-├── README.md
-├── sample_data_insert.sql
-├── gym_management_dump.sql
-
----
-
 ## Team
 Alicia Antle & Keira Hancock
 
