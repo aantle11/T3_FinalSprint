@@ -157,3 +157,6 @@ Tracks user actions, errors, and key system events.
 Alicia Antle & Keira Hancock
 
 ---
+
+Alicia Individual Report
+My Contributions / Branches I worked on was the classes folder containing all the classes for the system, aswell as the Database folder, the User Service and part of the readme. The challenges I faced during development with this project were making sure that the admin trainer and member classes only had access to the features that they should.
