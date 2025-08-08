@@ -1,60 +1,59 @@
 package Services;
 
 import Classes.User;
+import Classes.Admin;
+import Classes.Trainer;
+import DAO.UserDAO;
 import Classes.Member;
-import Database.UserData;
+import java.util.List;
+import Utils.HashUtil;
 
 public class UserService {
-    private UserData userData;
+    private final UserDAO userDAO = new UserDAO();
 
-    public UserService(UserData userData) {
-        this.userData = userData;
-    }
-
-    public boolean registerUser(int id, String name, String password, String role) {
-        if (name == null || password == null || name.isEmpty() || password.isEmpty()) {
-            System.out.println("Name and password cannot be empty");
-                return false;
-    }
-
-    if (userData.findUserByUsername(name) != null) {
-        System.out.println("Username is already taken");
+    public boolean register(String name, String email, String password, String role) {
+        if (userDAO.findByEmail(email) != null) {
+            System.out.println("Email already registered.");
             return false;
+        }
+
+        String hashedPassword = password; 
+
+        User newUser;
+
+    if (role.equalsIgnoreCase("Admin")) {
+        newUser = new Admin(0, name, email, hashedPassword, "Admin", "");
+    } else if (role.equalsIgnoreCase("Trainer")) {
+        newUser = new Trainer(0, name, email, hashedPassword, "Trainer", "");
+    } else {
+        newUser = new Member(0, name, email, hashedPassword, "Member", "");
     }
 
-    String email = name.toLowerCase() + "@email.com";
-
-    User newUser = new Member(id, name, email, password, "Standard", true);
-    userData.addUser(newUser);
-    System.out.println("Registered successfully");
-    return true;
-}
-
-public User loginUser(String name, String password) {
-    User user = userData.findUserByUsername(name);
-
-    if (user != null && user.getPassword().equals(password)) {
-        System.out.println("Welcome, " + user.getName() + "!");
-        return user;
-    }
-
-    System.out.println("invalid username or password");
-    return null;
-}
-
- public boolean deleteUser(String name) {
-    User user = userData.findUserByUsername(name);
-    if (user != null) {
-        userData.removeUser(name);
-        System.out.println("User deleted");
+        userDAO.registerUser(newUser);
         return true;
     }
 
-    System.out.println("User not found");
-    return false;
- }
+    public User login(String email, String password) {
+        User user = userDAO.findByEmail(email);
+        if (user == null) {
+            System.out.println("No account found with that email.");
+            return null;
+        }
 
- public User getUser(String name) {
-    return userData.findUserByUsername(name);
- }
+        // Hash input password for comparison
+        String hashedInput = HashUtil.hashPassword(password);
+
+        if (user.getPassword().equals(hashedInput)) {
+            System.out.println("Login successful. Welcome, " + user.getName() + " (" + user.getRole() + ")");
+            return user;
+        } else {
+            System.out.println("Incorrect password.");
+            return null;
+        }
+    }
+
+public void printAllUsers() {
+    List<User> users = userDAO.getAllUsers();
+    users.forEach(System.out::println);
+}
 }
