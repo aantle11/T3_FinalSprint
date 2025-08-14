@@ -16,6 +16,19 @@ Secure password hashing
 
 ---
 
+## Project Structure
+
+Classes/ # Entity classes
+DAO/ # Data access for DB interaction
+Database/ # DB connection and setup
+Loggin/ # Custom logger
+Services/ # Business logic services
+UI/ # Menu and user interface
+Utils/ # Utility classes
+Main.java/ # Entry point( where the application is run from)
+
+---
+
 ## Features
 
 ### Registration & Login
@@ -94,6 +107,12 @@ price NUMERIC(10,2),
 stock INT
 ```
 
+## Requirements
+
+- Java 17+
+- PostgreSQL 14+
+- PostgreSQL JDBC driver
+
 ## Setup Instructions
 
 ### Step 1: Clone the repository
@@ -140,6 +159,19 @@ CREATE DATABASE gym_management;
 
 ---
 
+## Example Usage
+
+=== Gym Management System ===
+
+1. Login
+2. Register
+3. Exit
+   Enter Choice:
+
+- Login as a Admin to manage all data
+- Login as a Trainer to manage classes
+- Login as a Member to view memberships and to make purchases
+
 ## Loggings
 
 All logs are written to:
@@ -148,9 +180,27 @@ All logs are written to:
 Logging/logs.txt
 ```
 
-Tracks user actions, errors, and key system events.
+this includes
+
+- login attempts
+- CRUD operations
+- Purchases
+- Class enrollements
+  Tracks user actions, errors, and key system events.
 
 ---
+
+# Class Overview
+
+- User - Contains name, email password, etc
+- Admin - extends User; manages users, merchandise, revenue
+- Trainer - extends User; manages workout classes
+- Member - extends User; enrolls in classes, purchases memberships
+- Membership - links to Member; contains type of class, cost, dates
+- WorkoutClass - links to Trainer; contains schedule, name
+- Merchandise - products with price and stock
+- DAO classes - handles database CRUD for each entity
+- Services - business logic, validation and data flow
 
 ## Team
 
