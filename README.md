@@ -210,3 +210,6 @@ Alicia Antle & Keira Hancock
 
 Alicia Individual Report
 My Contributions / Branches I worked on was the classes folder containing all the classes for the system, aswell as the Database folder, the User Service and part of the readme. The challenges I faced during development with this project were making sure that the admin trainer and member classes only had access to the features that they should.
+
+Keira Individual Report
+My contributions / branches I created the Main.java and the Menu.java file to handle role-based navigation for Admins, Trainers, and Members, ensuring each role only accessed its intended features. I connected menu options to the correct Services and DAO methods, and added logging so user actions were recorded in logs.txt. I also updated the MembershipService, WorkoutClassService, and GymMerchService to work with the PostgreSQL database, testing all CRUD operations for proper functionality. I also did part of the readme. My main challenges were integrating the role-based menu without altering existing class files and resolving method mismatches to ensure smooth database interaction.
