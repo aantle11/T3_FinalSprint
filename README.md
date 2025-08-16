@@ -166,6 +166,7 @@ CREATE DATABASE gym_management;
 1. Login
 2. Register
 3. Exit
+
    Enter Choice:
 
 - Login as a Admin to manage all data
