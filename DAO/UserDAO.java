@@ -1,5 +1,6 @@
 package DAO;
 
+import Database.DatabaseConnection;
 import Classes.User; 
 import Classes.Admin; 
 import Classes.Trainer; 
@@ -7,12 +8,11 @@ import Classes.Member;
 import java.sql.*;      
 import java.util.List;   
 import java.util.ArrayList; 
-import Database.DatabaseConnection;
 
 public class UserDAO {
-    private final String url = "jdbc:postgresql://localhost:5432/gymdb";
+    private final String url = "jdbc:postgresql://localhost:5432/gym_management";
     private final String user = "keyin";
-    private final String password = "Keyin2024";
+    private final String password = "";
 
     public Connection connect() throws SQLException {
         return DriverManager.getConnection(url, user, password);

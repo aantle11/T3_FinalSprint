@@ -1,5 +1,6 @@
 package DAO;
 
+import Database.DatabaseConnection;
 import Classes.WorkoutClass;
 import java.util.ArrayList;
 import java.util.List;
